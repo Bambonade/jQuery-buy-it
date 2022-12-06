@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="author" content="Tyler Kowalchuk">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="apple-touch-icon" sizes="180x180" href="./images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon/favicon-16x16.png">
+    <link rel="mask-icon" href="./images/favicon/safari-pinned-tab.svg" color="#b63272">
+    <link rel="shortcut icon" href="./images/favicon/favicon.ico">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-config" content="./images/favicon/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="./style/app.css">
+    <title>Buy It</title>
+</head>
+<body>
+<header>
+    <div class="navbar navbar-dark bg-dark shadow-sm px-3 py-1">
+        <div class="container-fluid">
+            <a href="#" class="navbar-brand d-flex align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="me-3" fill="currentColor" width="36px" height="30px" viewBox="0 0 40 36" xml:space="preserve">
+                     <g transform="translate(-84.000000, -410.000000)"><path d="M94.5,434.6h24.8l4.7-15.7H92.2l-1.3-8.9H84v4.8h3.1l3.7,27.8h0.1c0,1.9,1.8,3.4,3.9,3.4c2.2,0,3.9-1.5,3.9-3.4h12.8c0,1.9,1.8,3.4,3.9,3.4c2.2,0,3.9-1.5,3.9-3.4h1.7v-3.9l-25.8-0.1L94.5,434.6" /></g>
+                </svg>
+                <strong>Buy It!</strong>
+            </a>
+        </div>
+    </div>
+</header>
+
+<main>
+    <section class="py-5 text-center container-fluid">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1>What are you waiting for?</h1>
+                <p class="lead text-muted">We sell everything to cover yourself from head to toe.</p>
+                <h3 class="slogan">Just Buy It!</h3>
+            </div>
+        </div>
+    </section>
+
+    <div class="content px-3 py-4">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6 col-lg-8">
+                    <h3 class="section-heading">Products</h3>
+                    <div id="products"></div>
+                </div>
+                <div class="col-6 col-lg-4">
+                    <h3 class="section-heading">Cart</h3>
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="cart">
+                                <p class="text-center my-5">Why is your cart empty?</p>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="section-heading mt-5">Wishlist</h3>
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="wishlist">
+                                <p class="text-center my-5">Add some stuff to buy later!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<footer class="p-3">
+    <div class="container-fluid">
+        <p class="mb-1"><span class="slogan">&copy; Buy It!</span> &mdash; Don't make us tell you again!</p>
+    </div>
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="module" src="./js/app.js"></script>
+</body>
+</html>

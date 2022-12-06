@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Everything is an object!</title>
+</head>
+<body>
+<h3>Check console for output.</h3>
+<script>
+  // PRIMITIVES (string, number, boolean)
+  // more like "primitives with object syntax"
+  let name1 = 'Tyler';
+  let name2 = new String('Tyler'); // an "actual" object -- these are clunky
+  console.log('Primitives are objects: ', name1, name1.length, name1.charAt(0), name1[0]);
+  console.log('Primitives are objects: ', name2, name2.length, name2.charAt(0), name2[0]);
+  console.log('Are they the same thing? ', typeof name1, typeof name2, name1 === name2);
+
+
+
+
+
+
+
+  // PLAIN OBJECTS
+  let person = {firstName: 'Tyler', lastName: 'Kowalchuk'};
+  console.log('Objects are objects: ', person);
+
+
+
+
+
+
+
+  // ARRAYS
+  let fruits = ['apple', 'orange', 'pear'];
+  fruits.myFavorite = 'blueberry';
+  fruits.addBlueberries = function(){
+    this.push('BLUEBERRIES!!!')
+  };
+
+  // add lots-o-blueberries
+  [1,2,3,4,5].forEach(() => fruits.addBlueberries());
+  console.log('Arrays are objects: ', fruits);
+
+
+
+
+
+
+
+  // FUNCTIONS
+  // I'm sure you are used to this...
+  function sum1(a, b){
+    return a + b;
+  }
+
+  // Maybe even this...
+  const sum2 = function(a, b){
+    return a + b;
+  }
+
+  // What about this?
+  const sum3 = new Function("a", "b", "return a + b");
+
+  // no really, functions are objects
+  sum1.someProperty = 'This is WAY more useful than you think!';
+  sum1.someMethod = function(){
+    return 'Yes, methods can have methods! 🤯';
+  }
+
+
+  // don't believe me, check it out!
+  console.log('Functions are objects: ', {sum1, sum2, sum3});
+  console.log('Functions are objects: ', sum1(1,2), sum2(1,2), sum3(1,2));
+  console.log(sum1.someMethod(), sum1.someProperty);
+
+
+
+
+
+
+
+  // CLASSES
+  // yes, even classes are objects...
+  class Book {
+    title = '';
+    author = '';
+
+    constructor(title, author){
+      this.title = title ?? '';
+      this.author = author ?? '';
+    }
+  }
+
+  // let's create an object from our object... er, I mean class.
+  let hop = new Book('Hop on Pop', 'Dr. Seuss');
+
+  // watch this!
+  Book.someProperty = 'This is a property of the class.';
+  Book.someMethod = function(){
+    return 'This belongs to the class object, not the object created from the class';
+  }
+
+  // don't cry, it's really okay!
+  console.log('Classes are objects', {Book, hop});
+  console.log('Book\'s method: ', Book.someMethod());
+
+
+
+
+
+
+
+  // Book is really its own object
+
+  // this will fail because the method does NOT
+  // get passed to objects created from the class
+  //console.log(hop.someMethod());
+
+  // this works because JS keeps track of all constructors/parents through a prototype chain
+  console.log('Hop\'s constructor method: ', hop.constructor.someMethod())
+
+  // Prototypes is another entire week of mind-blowing material!
+  Book.prototype.getTitle = function(){ return this.title }
+  console.log('All books, including previously created books, now have a getTitle method: ', hop.getTitle())
+
+
+
+
+</script>
+</body>
+</html>

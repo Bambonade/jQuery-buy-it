@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Factories and Dependency Injection!</title>
+</head>
+<body>
+<h3>Check console for output.</h3>
+<script>
+  // CLASSES
+  class Book {
+    title = '';
+    author = '';
+
+    constructor(props){
+      this.title = props.title ?? '';
+      this.author = props.author ?? '';
+    }
+  }
+
+  class Movie {
+      title = '';
+      genre = '';
+
+      constructor(props){
+          this.title = props.title ?? '';
+          this.genre = props.genre ?? '';
+      }
+  }
+
+  // oh, by the way, functions can be classes/constructors too!
+  function Album(props){
+      this.title = props.title ?? '';
+      this.artist = props.artist ?? '';
+  }
+  // are classes just functions in JS???
+
+  // here we are creating an AGGREGATE (product "has a" book)
+  class Product {
+      item = {};
+      price = 0;
+
+      constructor(item, price){
+          this.item = item ?? {}
+          this.price = price ?? 0;
+      }
+  }
+
+  // Now, when we can create some products
+  let oneFish = new Product(new Book({title: 'One Fish, Two Fish', author: 'Dr. Seuss'}), 5.99);
+  let strangeBrew = new Product(new Movie({title: 'Strange Brew', genre: 'Comedy'}), 12.99);
+  console.log('Manually creating product aggregates:');
+  console.log(oneFish, strangeBrew);
+  console.log(oneFish.item.title + ' costs $' + oneFish.price);
+
+
+
+
+
+
+
+  // Cool. What if we have a lot of products?
+
+
+
+
+
+
+
+  // So, if we have an array of data from a database or api:
+  let data = [
+      {type: "book", title: "The Very Hungry Caterpillar", author: "Eric Carle", price: 5.99},
+      {type: "book", title: "10 Little Rubber Ducks", author: "Eric Carle", price: 6.99},
+      {type: "movie", title: "Minions: The Rise of Gru", author: "Comedy", price: 19.99},
+      // ...
+  ];
+
+  // then create products from that data
+  let products = [];
+  data.forEach(item => {
+      if(item.type.toLowerCase() === 'book'){
+          products.push(new Product(new Book(item), item.price));
+      }else if(item.type.toLowerCase() === 'movie'){
+          products.push(new Product(new Movie(item), item.price));
+      }else if(item.type.toLowerCase() === 'album'){
+          products.push(new Product(new Album(item), item.price));
+      }else if(item.type.toLowerCase() === 'magazine'){
+          products.push(new Product(new Magazine(item), item.price));
+      }
+  });
+
+
+
+
+
+
+
+  // Eww... don't do that 👆===💩
+  // https://refactoring.guru/smells/switch-statements
+
+
+
+
+
+
+
+  // Normally, if we have a lot of these subtypes, we
+  // create a factory to encapsulate the creating of objects.
+  // https://refactoring.guru/design-patterns/factory-method
+  // (This would normally be in a separate file, probably even a separate class)
+  function productFactory (item){
+      switch(item.type.toLowerCase()){
+          case "book":
+              return new Product(new Book(item), item.price);
+          case "movie":
+              return new Product(new Movie(item), item.price);
+          case "album":
+              return new Product(new Album(item), item.price);
+          case "magazine":
+              return new Product(new Magazine(item), item.price);
+          // ... you get the idea ...
+      }
+
+      throw new Error('Invalid item type.');
+  }
+
+  // Wherever we need to create these items gets very simple
+  products = [];
+  data.forEach(item => {
+      try{
+          products.push(productFactory(item));
+      }catch(error){
+          console.error(error)
+      }
+  })
+
+  // Now we have...
+  console.log('----------------------------');
+  console.log('Products created by factory:');
+  console.log(products);
+
+
+
+
+
+
+
+  // BUT WAIT!, THERE'S MORE!
+
+
+
+
+
+
+
+  // Classes are objects, objects are stored in variables.
+  // Variables are passed to functions as arguments.
+  // The fact that we can .log() these classes shows how we can pass these around.
+  console.log('----------------------------');
+  console.log('Passing a class: ', Book);
+
+  // Using "Dependency Injection", our factory can create a product
+  // out of any type. When we call it, we can give it the class we want.
+  // https://en.wikipedia.org/wiki/Dependency_injection
+  // (I bet you this makes the Open/Closed principle very happy...)
+  function productFactoryDI(type, props, price){
+      return new Product(new type(props), price)
+  }
+
+  let twoFish = productFactoryDI(Book, {title: 'One Fish, Two Fish', author: 'Dr. Seuss'}, 5.99)
+  let strangerBrew = productFactoryDI(Movie, {title: 'Strange Brew', genre: 'Comedy'}, 12.99)
+  console.log('----------------------------');
+  console.log('Products created by dependency injected factory:');
+  console.log(twoFish, strangerBrew);
+
+
+
+
+
+
+
+  // Let's take this factory to the next level
+
+
+
+
+
+
+
+  function ultimateProductFactory(data, types){
+      let products = [];
+      data.forEach(item => {
+          if(types[item.type]) {
+              products.push(new Product(new types[item.type](item), item.price));
+
+              // or, if that gives you heart palpitations:
+              // let theItemType = types[item.type];
+              // let theItem = new theItemType(item);
+              // let theProduct = new Product(theItem, item.price);
+              // products.push(theProduct);
+          }else{
+              console.error('Invalid item type', item);
+          }
+      })
+      return products;
+  }
+
+  // Then, somewhere we have data and types
+  // let data = [...] // data is still defined above
+  let types = {'book': Book, 'movie': Movie};
+
+  // Now, behind some magic curtain, we get our data converted to products
+  let stuffToSell = ultimateProductFactory(data, types);
+  console.log('----------------------------');
+  console.log('Ultimate Product Factory');
+  console.log({data, types});
+  console.log('Stuff to sell', stuffToSell);
+
+
+
+
+
+
+
+
+  // Doesn't this make you feel all warm and fuzzy inside?
+  // Think about it. The only code we have to ever change
+  // is the data and types variables!
+
+
+
+
+
+
+
+
+  // P.S. What about Java? Creating these typed object dynamically gets
+  // pretty ugly. I'm not even sure it can be done without a framework.
+  // Instead, you would create a Factory object and pass that in
+  class BookFactory {
+      // this factory would also implement an interface (like "Creatable")
+      // that has an abstract "create" method that all factories would have
+      // to make sure the next part could have an appropriate typehint/signature
+      create(props){
+          return new Book(props);
+      }
+  }
+
+  // ...and repeat for each type
+  class MovieFactory {
+      create(props){
+          return new Movie(props);
+      }
+  }
+
+  // again, in Java, you would have some type of typehint
+  // for types tied to an interface, like "Creatable[] factories"
+  function javaishProductFactory(data, factories){
+      let products = [];
+      data.forEach(item => {
+          if(factories[item.type]) {
+              //  notice the .create(item) ???
+              products.push(new Product(factories[item.type].create(item), item.price));
+          }else{
+              console.error('Invalid item type', item);
+          }
+      })
+      return products;
+  }
+
+  // Then, somewhere we have data and types
+  // let data = [...] // data is still defined above
+  let factoryTypes = {'book': new BookFactory(), 'movie': new MovieFactory()};
+
+  // Now, behind some magic curtain, we get our data converted to products
+  let stuffToSell2 = javaishProductFactory(data, factoryTypes);
+  console.log('----------------------------');
+  console.log('Java-ish Product Factory');
+  console.log({data, factoryTypes});
+  console.log('Stuff to sell', stuffToSell2);
+
+  // So, a little less voodoo than the ultimate product factory,
+  // but requires more classes... 🤷
+
+</script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Secular+One&display=swap');
+
+
+/* ----- BRANDING ----- */
+:root {
+    --primary-rgb: 183, 56, 126; // #b63272
+    --primary-rgb-darker: 156, 48, 107;
+    --bs-dark-rgb: var(--primary-rgb);
+}
+
+h1, h2, h3, .navbar-brand, .btn:not(.btn-link){
+    font-family: 'Secular One', serif;
+}
+
+.btn-primary {
+    --bs-btn-bg: rgb(var(--primary-rgb));
+    --bs-btn-border-color: rgb(var(--primary-rgb));
+    --bs-btn-hover-bg: rgb(var(--primary-rgb-darker));
+    --bs-btn-hover-border-color: rgb(var(--primary-rgb-darker));
+    --bs-btn-focus-shadow-rgb: rgb(var(--primary-rgb-darker));
+    --bs-btn-active-bg: rgb(var(--primary-rgb-darker));
+    --bs-btn-active-border-color: rgb(var(--primary-rgb-darker));
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-bg: rgb(var(--primary-rgb));
+    --bs-btn-disabled-border-color: rgb(var(--primary-rgb));
+}
+
+
+
+/* ----- LAYOUT ----- */
+
+.navbar-brand {
+    font-size: 1.8em;
+}
+
+h2, h3, h4, h5, h6, .btn:not(.btn-link), .section-heading, .navbar-brand, .slogan {
+    font-weight: bold;
+    letter-spacing: .05em;
+}
+
+.slogan, footer {
+    color: rgb(var(--primary-rgb));
+}
+
+.content {
+    border-top: 3px solid rgb(var(--primary-rgb));
+    border-bottom: 3px solid rgb(var(--primary-rgb));
+    background-color: rgba(var(--primary-rgb), .1) !important;
+}
+.content .section-heading{
+    padding-left: 5px;
+    font-size: 2em;
+    color: rgb(var(--primary-rgb));
+}
+
+
+
+/* ----- PRODUCTS ----- */
+#products .card {
+    height: 100%
+}
+
+#products .card-body {
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100%;
+}
+
+#products .add-to-cart {
+    margin-top: auto;
+}
+
+
+
+/* ----- CART ----- */
+
+.remove-btn {
+    text-decoration: none;
+    display: inline-block;
+    padding: 4px 0 4px 4px; /* make the click area a little bigger */
+    border-width: 0;
+}
+.remove-btn:hover {
+    font-weight: bold;
+}
